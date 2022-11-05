@@ -1,0 +1,53 @@
+SELECT name FROM world
+WHERE population > 200000000
+
+SELECT name, gdp/population as 'per capita GDP' FROM world
+WHERE population > 200000000
+
+SELECT name, population/1000000 as 'population (millions)' FROM world
+WHERE continent = 'South America'
+
+SELECT name, population from world
+WHERE name in ('France', 'Germany', 'Italy')
+
+SELECT name FROM world
+WHERE name LIKE '%United%'
+
+SELECT name, population, area FROM world
+WHERE population > 250000000 or (area / 1000000) > 3
+
+SELECT name, population, area FROM world
+WHERE population > 250000000 and area < 3000000
+or population < 250000000 and area > 3000000
+
+SELECT name, round(population / 1000000, 2), round(gdp / 1000000000, 2) FROM world
+WHERE continent = 'South America'
+
+SELECT name, round(gdp / population, -3) FROM world
+WHERE gdp > 1000000000000
+
+SELECT name, capital from world
+WHERE len(capital) = len(name)
+
+SELECT name, capital FROM world
+WHERE left(name, 1) = left(capital, 1)
+and name <> capital
+
+SELECT name FROM world
+WHERE name LIKE '%A%'
+AND name LIKE '%E%'
+AND name LIKE '%I%'
+AND name LIKE '%O%'
+AND name LIKE '%U%'
+AND name LIKE '%a%'
+AND name LIKE '%e%'
+AND name LIKE '%i%'
+AND name LIKE '%o%'
+AND name LIKE '%u%'
+AND name NOT LIKE '% %'
+
+
+
+
+
+
