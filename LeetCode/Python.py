@@ -15,7 +15,7 @@ class Solution:
             self.val = val
             self.next = next
 
-    def addTwoNumbers(l1: ListNode, l2: ListNode) -> ListNode:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         sum_num = 0
         ret, previous_node = None, None
 
@@ -121,7 +121,7 @@ class Solution:
         else:
             return nums[len(nums) // 2]
 
-    #3rd iteration, learned that defining a length is faster than calling it multiple times.
+    # Third iteration, learned that defining a length is faster than calling it multiple times.
     # I was under the misimpression that python functions (i.e. len()) == numpy functions, in that defining a new variable in numpy, even
     # if it is used multiple times later in the function, is slower than using the function itself (e.g. idx = np.argsort(arr), using idx vs using np.argsort(arr)
     # Additionally, learned that !=0 is faster than if(True) and if(foo == val)
@@ -136,4 +136,60 @@ class Solution:
         else:
             return (nums[mid] + nums[mid - 1])
 
+    # 5. Longest Palindromic Substring
+    # This problem was exceptionally challenging for me, but I ended up getting a solution that beats 86% run time and 58 % memory
+    # It isn't properly optimized - it has parity checks twice (as helper is called twice)
+    # It also doesn't account for the fact that a found palindrome does not need to be rechecked if the indexes are
+    # a subsection of an already checked palindrome (as the iteration does not change if a long palindrome is found)
+    # will attempt to fix in future solution, but need to take a break from this problem : )
+    def longestPalindrome(self, s: str) -> str:
+        def helper(i_start, i_end):
+            nonlocal s, length, i_start_end
 
+            if s[i_start] != s[i_end]:
+                return
+
+            while i_start - 1 >= 0 and i_end + 1 < length:
+                if s[i_start - 1] != s[i_end + 1]:
+                    break
+                i_start -= 1
+                i_end += 1
+
+            if i_end - i_start > i_start_end[1] - i_start_end[0]:
+                i_start_end = (i_start, i_end)
+
+        length = len(s)
+        if length == 1:
+            return s
+
+        i_start_end = (0, 1) if s[0] == s[1] else (0, 0)
+        for i in range(1, len(s) - 1):
+            helper(i, i + 1)
+            helper(i - 1, i + 1)
+
+        return s[i_start_end[0]:i_start_end[1] + 1]
+
+    #6. Zigzag Conversion is is is
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows == 1:
+            return s
+
+        step = numRows + (numRows - 2)
+        length = len(s)
+        mid = ''
+        for row_i in range(1, min(numRows - 1, length)):
+            start_step = step - int((row_i * step) / (numRows - 1))
+            while row_i < length:
+                mid += s[row_i]
+                if row_i + start_step >= length:
+                    break
+                mid += s[row_i + start_step]
+                row_i += step
+
+        return s[0::step] + mid + s[numRows - 1::step]
+
+
+
+    #6. Zigzag Conversion
+
+print(len("ghiqfmzhlvihjouvsuyoypayulyeimuotehzriicfskpggkbbipzzrzucxamludfykgruowzgiooo"))
