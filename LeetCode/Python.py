@@ -1,5 +1,6 @@
-# 1.Two Sum
+
 class Solution:
+    # 1.Two Sum
     def twoSum(self, nums, target: int):
         for i, val in enumerate(nums):
             for j in range(i, len(nums)):
@@ -7,51 +8,47 @@ class Solution:
                     print('b')
                     return [i, j]
 
+    # 2. Add Two Numbers
+    # Definition for singly-linked list.
+    class ListNode:
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
 
-# 2. Add Two Numbers
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+    def addTwoNumbers(l1: ListNode, l2: ListNode) -> ListNode:
+        sum_num = 0
+        ret, previous_node = None, None
 
+        while l1 is not None or l2 is not None:
+            for l in l1, l2:
+                if l:
+                    sum_num += l.val
 
-def addTwoNumbers(l1: ListNode, l2: ListNode) -> ListNode:
-    sum_num = 0
-    ret, previous_node = None, None
+            if sum_num >= 10:
+                node = ListNode(val=sum_num - 10)
+                sum_num = 1
+            else:
+                node = ListNode(val=sum_num)
+                sum_num = 0
 
-    while l1 is not None or l2 is not None:
-        for l in l1, l2:
-            if l:
-                sum_num += l.val
+            if not ret:
+                ret = node
+                previous_node = node
+            else:
+                previous_node.next = node
+                previous_node = node
 
-        if sum_num >= 10:
-            node = ListNode(val=sum_num - 10)
-            sum_num = 1
-        else:
-            node = ListNode(val=sum_num)
-            sum_num = 0
+            if l1:
+                l1 = l1.next
+            if l2:
+                l2 = l2.next
 
-        if not ret:
-            ret = node
-            previous_node = node
-        else:
-            previous_node.next = node
-            previous_node = node
+        if sum_num:
+            previous_node.next = ListNode(val=1)
 
-        if l1:
-            l1 = l1.next
-        if l2:
-            l2 = l2.next
+        return ret
 
-    if sum_num:
-        previous_node.next = ListNode(val=1)
-
-    return ret
-
-#3 Longest Substring Without Repeating Characters
-
-class Solution:
+    # 3 Longest Substring Without Repeating Characters
     def lengthOfLongestSubstring(self, s: str) -> int:
         if len(s) == 0:
             return 0
@@ -70,12 +67,7 @@ class Solution:
         else:
             return end_i - start_i
 
-
-#4 Median of Two Sorted Arrays'
-
-
-
-class Solution:
+    # 4 Median of Two Sorted Arrays'
     #First iteration, signifcantly overthought it
     def findMedianSortedArrays(self, nums1, nums2) -> float:
         def get_val(l1, l2):
@@ -125,8 +117,6 @@ class Solution:
         nums.sort()
         # Even
         if len(nums) % 2 == 0:
-            t = nums[len(nums) // 2]
-            t2 = nums[len(nums) // 2 - 1]
             return (nums[len(nums) // 2] + nums[len(nums) // 2 + 1]) / 2
         else:
             return nums[len(nums) // 2]
@@ -134,19 +124,16 @@ class Solution:
     #3rd iteration, learned that defining a length is faster than calling it multiple times.
     # I was under the misimpression that python functions (i.e. len()) == numpy functions, in that defining a new variable in numpy, even
     # if it is used multiple times later in the function, is slower than using the function itself (e.g. idx = np.argsort(arr), using idx vs using np.argsort(arr)
-    # Additionally, learned that !=0 is faster than if(True) and if(foo = 0)
-    class Solution:
-        def findMedianSortedArrays(self, nums1, nums2) -> float:
-            nums = nums1 + nums2
-            nums.sort()
-            length = len(nums)
-            mid = length // 2
-            # Even
-            if length % 2 != 0:
-                return nums[mid]
-            else:
-                return (nums[mid] + nums[mid - 1]) / 2
+    # Additionally, learned that !=0 is faster than if(True) and if(foo == val)
 
+    def findMedianSortedArrays(self, nums1, nums2) -> float:
+        nums = nums1 + nums2
+        nums.sort()
+        length = len(nums)
+        mid = length // 2
+        if length % 2 != 0:
+            return nums[mid]
+        else:
+            return (nums[mid] + nums[mid - 1])
 
-t = Solution.findMedianSortedArrays(Solution, [1,2], [3, 4])
 
