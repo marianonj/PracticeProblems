@@ -188,8 +188,36 @@ class Solution:
 
         return s[0::step] + mid + s[numRows - 1::step]
 
+    #7. Reverse Integer
 
+    #First iteration
+    def reverse(self, x: int) -> int:
+        num_is_negative = x < 0
+        num = str(x)[1:][::-1] if num_is_negative else str(x)[::-1]
+        length = len(num)
 
-    #6. Zigzag Conversion
+        if length < 10:
+            return -int(num) if num_is_negative else int(num)
+        elif length > 10:
+            return 0
 
-print(len("ghiqfmzhlvihjouvsuyoypayulyeimuotehzriicfskpggkbbipzzrzucxamludfykgruowzgiooo"))
+        comp_val = 2 ** 31 if num_is_negative else 2 ** 31 -1
+        comp_divider= 10 ** 9
+
+        for i in range(0, 10):
+            digit = int(num[i])
+            comp = comp_val // comp_divider
+            if digit > comp:
+                return 0
+            elif digit < comp:
+                break
+            comp_val -= (comp_divider * comp)
+            comp_divider /= 10
+
+        return -int(num) if num_is_negative else int(num)
+
+print(Solution.reverse(Solution, 1563847412))
+t = 10 ** 9
+for _ in range(0, 9):
+    t /= 10
+print('b')
